@@ -34,6 +34,7 @@ def get_angle(a,b,c):
 ######################
 #----------- Custom-render a highly aesthetic visual HUD ourselves
 ######################
+
 def draw_biomechanics(img, pose_data, angle, min_angle=10, max_angle=175):
     """
     Draws custom glowing joints, connection lines, and a floating angle badge.
