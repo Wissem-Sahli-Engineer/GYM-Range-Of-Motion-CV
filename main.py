@@ -4,18 +4,20 @@ import cv2
 import mediapipe as mp
 import time
 from Pose_Tracking_Model.utils import PoseDetector
-from utils import get_fps
+from utils import get_fps , get_dist , get_angle
 
 
 
 def main():
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture("video.mp4")
 
     pTime = time.time()
     frame_count = 0
 
     detector = PoseDetector(model_path = "Pose_Tracking_Model/pose_landmarker_full.task",
-                            num_poses = 3)
+                            num_poses = 1)
+    
+    angleList= []
 
     while True:
 
@@ -36,10 +38,23 @@ def main():
 
         res = detector.landmarker.detect_for_video(mp_img, timestamp_ms)
 
-        pose_data = detector.findPose(img, res,id = 14)
+        pose_data = detector.findPose(img, res )
 
-        print(pose_data)
+        if len(pose_data) != 0:
+            pose_data = pose_data[0]
 
+            a = get_dist(pose_data[11],pose_data[13])
+            b = get_dist(pose_data[13],pose_data[15])
+            c = get_dist(pose_data[11],pose_data[15])
+
+            angle = get_angle(a,b,c)
+
+            angleList.append(angle)
+
+            cv2.putText(img,str(int(angle)),
+                        (pose_data[13][1]+10,pose_data[13][2]),
+                        cv2.FONT_HERSHEY_COMPLEX, 
+                        2, (183,81,93) , 1)
 
         # display
         cv2.putText(img,str(int(fps)),

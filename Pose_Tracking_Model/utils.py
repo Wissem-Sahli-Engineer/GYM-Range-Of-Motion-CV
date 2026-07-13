@@ -7,12 +7,12 @@ from mediapipe.tasks.python.vision import drawing_utils
 
 # custom styles
 custom_dots = drawing_utils.DrawingSpec(color=(255, 0, 0),
-                                        thickness=5, 
-                                        circle_radius=4
+                                        thickness=2, 
+                                        circle_radius=1
                                         )
 
 custom_lines = drawing_utils.DrawingSpec(color=(0, 255, 0), 
-                                        thickness=5
+                                        thickness=2
                                         )
 
 class PoseDetector():
@@ -63,19 +63,19 @@ class PoseDetector():
                     )
 
                 lmList = []
-                for id,lm in enumerate(pose):
+                for ID,lm in enumerate(pose):
                     cx , cy = int(lm.x*w), int(lm.y*h)
-                    lmList.append([id,cx,cy])
+                    lmList.append([ID,cx,cy])
                 
                 AllPoses.append(lmList)
 
         if id != -1 :
 
             coor = []
-            for id , pose in enumerate(AllPoses):
+            for ID , pose in enumerate(AllPoses):
                 if len(AllPoses) != 0:
                     cx , cy = pose[id][1] , pose[id][2]
-                    coor.append([id+1,cx,cy])
+                    coor.append([ID+1,cx,cy])
 
             return coor
 
