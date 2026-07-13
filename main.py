@@ -7,9 +7,18 @@ from Pose_Tracking_Model.utils import PoseDetector
 from utils import get_fps , get_dist , get_angle
 from utils import draw_fps_capsule, draw_biomechanics , draw_rom_bar
 
+max_angle = 160
+min_angle = 30
+file_name = 'squat.mp4'
+
+# angle_id , b is the head of the angle 
+
+a = 23
+b = 25
+c = 27
 
 def main():
-    cap = cv2.VideoCapture("video.mp4")
+    cap = cv2.VideoCapture(f"videos/{file_name}")
 
     pTime = time.time()
     frame_count = 0
@@ -43,17 +52,15 @@ def main():
         if len(pose_data) != 0:
             pose_data = pose_data[0]
 
-            a = get_dist(pose_data[11],pose_data[13])
-            b = get_dist(pose_data[13],pose_data[15])
-            c = get_dist(pose_data[11],pose_data[15])
-
-            angle = get_angle(a,b,c)
+            angle = get_angle(pose_data, a , b , c)
 
             angleList.append(angle)
 
-            draw_biomechanics(img, pose_data, angle)
-            draw_rom_bar(img, angle)
-            
+            draw_biomechanics(img, pose_data, angle, a , b, c , 
+                                min_angle, max_angle)
+
+            draw_rom_bar(img, angle,min_angle,max_angle)
+
             """
             cv2.putText(img,str(int(angle)),
                         (pose_data[13][1]+10,pose_data[13][2]),
@@ -70,6 +77,7 @@ def main():
                 cv2.FONT_HERSHEY_PLAIN,
                 7,(255,0,255),5)
         """
+
         cv2.imshow('Video',img)
         if cv2.waitKey(1) & 0xFF==ord(' '):
             break

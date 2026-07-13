@@ -24,8 +24,13 @@ def get_fps(cap, pTime,type='default'):
 def get_dist(point1,point2):
     return math.hypot(point1[1]-point2[1],point1[2]-point2[2])
 
-# a and b form the angle
-def get_angle(a,b,c):
+# id1 and id2 form the angle
+def get_angle(pose_data,id1,id2,id3):
+
+    a = get_dist(pose_data[id1],pose_data[id2])
+    b = get_dist(pose_data[id2],pose_data[id3])
+    c = get_dist(pose_data[id1],pose_data[id3])
+    
     return math.degrees(math.acos((a**2 + b**2 - c**2) / ( 2 * a * b) ))
 
 
@@ -35,14 +40,15 @@ def get_angle(a,b,c):
 #----------- Custom-render a highly aesthetic visual HUD ourselves
 ######################
 
-def draw_biomechanics(img, pose_data, angle, min_angle=10, max_angle=175):
+def draw_biomechanics(img, pose_data, angle, a , b ,c ,
+                        min_angle=10, max_angle=175):
     """
     Draws custom glowing joints, connection lines, and a floating angle badge.
     """
     # 1. Extract clean coordinates
-    x11, y11 = pose_data[11][1], pose_data[11][2]  # Shoulder
-    x13, y13 = pose_data[13][1], pose_data[13][2]  # Elbow
-    x15, y15 = pose_data[15][1], pose_data[15][2]  # Wrist
+    x11, y11 = pose_data[a][1], pose_data[a][2]  # Shoulder
+    x13, y13 = pose_data[b][1], pose_data[b][2]  # Elbow
+    x15, y15 = pose_data[c][1], pose_data[c][2]  # Wrist
 
     # 2. Draw clean glowing arm lines (Pink/Red theme: BGR (93, 81, 183))
     cv2.line(img, (x11, y11), (x13, y13), (50, 50, 50), 8)
