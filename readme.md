@@ -5,7 +5,6 @@
 [![Python Version](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11-blue.svg)](https://www.python.org/)
 [![MediaPipe](https://img.shields.io/badge/MediaPipe-0.10.0%2B-green.svg)](https://mediapipe.dev/)
 [![OpenCV](https://img.shields.io/badge/OpenCV-4.x-orange.svg)](https://opencv.org/)
-[![License](https://img.shields.io/badge/license-MIT-purple.svg)](#)
 
 A modern, high-precision computer vision pipeline designed to track, measure, and visualize joint range of motion (ROM) in real-time during exercise video playback. Built with MediaPipe's Pose Landmarker API and OpenCV, it features a custom, highly aesthetic HUD showing real-time biomechanics angles, contractive percentages, and live performance metrics.
 
