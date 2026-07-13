@@ -5,7 +5,7 @@ import mediapipe as mp
 import time
 from Pose_Tracking_Model.utils import PoseDetector
 from utils import get_fps , get_dist , get_angle
-
+from utils import draw_fps_capsule, draw_biomechanics , draw_rom_bar
 
 
 def main():
@@ -38,7 +38,7 @@ def main():
 
         res = detector.landmarker.detect_for_video(mp_img, timestamp_ms)
 
-        pose_data = detector.findPose(img, res )
+        pose_data = detector.findPose(img, res, draw=False)
 
         if len(pose_data) != 0:
             pose_data = pose_data[0]
@@ -51,23 +51,32 @@ def main():
 
             angleList.append(angle)
 
+            draw_biomechanics(img, pose_data, angle)
+            draw_rom_bar(img, angle)
+            
+            """
             cv2.putText(img,str(int(angle)),
                         (pose_data[13][1]+10,pose_data[13][2]),
                         cv2.FONT_HERSHEY_COMPLEX, 
                         2, (183,81,93) , 1)
+            """
 
         # display
+        draw_fps_capsule(img, fps)
+
+        """
         cv2.putText(img,str(int(fps)),
                 (10,100),
                 cv2.FONT_HERSHEY_PLAIN,
                 7,(255,0,255),5)
-
+        """
         cv2.imshow('Video',img)
         if cv2.waitKey(1) & 0xFF==ord(' '):
             break
 
     cap.release()
     cv2.destroyAllWindows()
+    print(max(angleList),min(angleList))
 
 if __name__ == "__main__":
     main()
