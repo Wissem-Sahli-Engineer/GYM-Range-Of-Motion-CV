@@ -9,13 +9,13 @@ from utils import draw_fps_capsule, draw_biomechanics , draw_rom_bar
 
 max_angle = 160
 min_angle = 30
-file_name = 'squat.mp4'
+file_name = 'bicep_curls.mp4'
 
 # angle_id , b is the head of the angle 
 
-a = 23
-b = 25
-c = 27
+a = 11
+b = 13
+c = 15
 
 def main():
     cap = cv2.VideoCapture(f"videos/{file_name}")
